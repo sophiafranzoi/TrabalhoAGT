@@ -9,21 +9,41 @@ char titulos[MAX_LIVROS][TAM_TITULO];
 int totalLivros = 0;
 
 // MATRIZ 2 - PAGINAS (leticia)
-//funcoes e vetores que entram aqui (cadastrarPaginas, listarPaginas, etc)
+int paginas[MAX_LIVROS];
 
 // cadastro de titulo
 void cadastrarTitulo() {
+    int valido = 1;
     if (totalLivros >= MAX_LIVROS) {
         printf("Limite de livros atingido! ;-;\n");
         return;
     }
 
-    printf("Digite o titulo do livro: ");
+    printf("\nDigite o titulo do livro: ");
     scanf(" %[^\n]", titulos[totalLivros]); //diferente do %s que para de ler no primeiro espaço,
     //o %[^\n] le a linha inteira, palavras com espaço e tudo, e so para de ler quando aperta enter
+    
+    for (int i = 0; i < totalLivros; i++) { 
+        if (strcmp(titulos[totalLivros], titulos[i]) == 0) {  
+            printf("Titulo ja cadastrado\n");
+            valido = 0;
+            break;  
+            
+        }
+    }
+    if (valido){
+        printf("\nDigite o numero de paginas desse livro: ");
+        scanf("%i", &paginas[totalLivros]);
 
-    totalLivros++;
-    printf("Livro cadastrado com sucesso! :) \n");
+        while (paginas[totalLivros] < 0){
+            printf("\nNumero de paginas invalido. Tente novamente");
+            printf("\nDigite o numero de paginas desse livro: ");
+            scanf("%i", &paginas[totalLivros]);
+        }
+
+        totalLivros++;
+        printf("\nLivro cadastrado com sucesso! :) \n");
+    }
 }
 
 // mostra os livros cadastrados
@@ -33,9 +53,9 @@ void listarTitulos() {
         return;
     }
 
-    printf("\n Titulos de Livros \n");
+    printf("\n----Titulos de Livros-----Paginas--------- \n");
     for (int i = 0; i < totalLivros; i++) {
-        printf("%d - %s\n", i, titulos[i]);
+        printf("%d - %s                   %i\n", i, titulos[i], paginas[i]);
     }
 }
 
@@ -57,23 +77,24 @@ int main() {
     int opcao;
 
     do {
-        printf("\n Menu Titulos\n");
+        printf("\n----Menu Titulos----\n");
         printf("1 - Cadastrar titulo\n");
-        printf("2 - Listar titulos\n");
-        printf("3 - Buscar titulo\n");
+        printf("3 - Listar titulos\n");
+        printf("4 - Buscar titulo\n");
         // quando juntar com a matriz 2, adicionar aqui as opcoes dela
         // (ex: 4 - Cadastrar paginas, 5 - Listar paginas)
         printf("0 - Sair\n");
+        printf("--------------------\n\n");
         printf("Opcao: ");
         scanf("%d", &opcao);
 
         if (opcao == 1) {
             cadastrarTitulo();
         }
-        else if (opcao == 2) {
+        else if (opcao == 3) {
             listarTitulos();
         }
-        else if (opcao == 3) {
+        else if (opcao == 4) {
             char busca[TAM_TITULO];
             printf("Digite o titulo a buscar: ");
             scanf(" %[^\n]", busca);
@@ -93,6 +114,6 @@ int main() {
         }
 
     } while (opcao != 0);
-//ola
+
     return 0;
 }
