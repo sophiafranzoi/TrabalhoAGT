@@ -55,7 +55,7 @@ void listarTitulos() {
 
     printf("\n----Titulos de Livros-----Paginas--------- \n");
     for (int i = 0; i < totalLivros; i++) {
-        printf("%d - %s                   %i\n", i, titulos[i], paginas[i]);
+        printf("%d - %s  %i\n", i, titulos[i], paginas[i]); //tentar deixar alinhado como no exemplo
     }
 }
 
@@ -103,7 +103,7 @@ int main() {
             if (indice == -1) {
                 printf("Titulo nao encontrado :( \n");
             } else {
-                printf("Titulo encontrado no indice %d :)\n", indice);
+                printf("Titulo encontrado no indice %d :)\nTitulo: %s  Paginas: %i", indice, titulos[indice], paginas[indice]);
             }
         }
         else if (opcao == 0) {
