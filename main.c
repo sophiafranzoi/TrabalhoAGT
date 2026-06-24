@@ -75,8 +75,8 @@ int buscarTitulo(char titulo[]) {
     return -1;
 }
 
-// FIM DA MATRIZ 1
-// (a Matriz 3 - Emprestimos, que usa buscarTitulo(), tambem pode entrar como uma terceira secao aqui, se for o caso)
+// FIM DAS MATRIZES 1 E 2
+// Matriz 3 
 int emprestimos[MAX_LIVROS][5];
 int cadastros = 0, valido, dia_inicio, dias; 
 char emprestimo[TAM_TITULO];
@@ -114,12 +114,14 @@ void cadastro_especifico(){
             if (dias >= 1 && dias <= 7) emprestimos[cadastros][4] = dias;
             else printf("Numero de dias invalido!\n");
         } while (dias < 1 || dias > 7);
+
+        cadastros += 1;
     }
 
 }
 
 int main() {
-    int opcao;
+    int opcao, certeza = 1;
 
     do {
         printf("\n----Menu Titulos----\n");
@@ -156,13 +158,18 @@ int main() {
             cadastro_especifico();
         }
         else if (opcao == 0) {
-            printf("Que pena, voce saiu :(\n");
+            do{
+                printf("Tem certeza de que deseja sair?\n1 - Nao\n2 - Sim\nOpcao: ");
+                scanf("%i", &certeza);
+                if (certeza == 2) printf("\nQue pena, voce saiu :(\n");
+            } while (certeza != 1 && certeza != 2); 
+            
         }
         else {
             printf("Opcao invalida \n");
         }
 
-    } while (opcao != 0);
+    } while (certeza == 1);
 
     return 0;
 }
