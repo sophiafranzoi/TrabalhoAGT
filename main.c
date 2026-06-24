@@ -54,13 +54,16 @@ void listarTitulos() {
         return;
     }
 
-    printf("\n----Titulos de Livros-----Paginas--------- \n");
+    printf("\n----Titulos de Livros------------------Paginas--------- \n");
     for (int i = 0; i < totalLivros; i++) {
         int tamanho;
-        //for (tamanho = 0; titulos[tamanho]; tamanho++);
-            //tamanho = 
-            int num_espacos = DISTANCIA + TAM_TITULO - tamanho;
-        printf("%d - %s  %i\n", i, titulos[i], paginas[i]); //tentar deixar alinhado como no exemplo
+        for (tamanho = 0; titulos[i][tamanho] != '\0'; tamanho++);
+        int num_espacos = DISTANCIA + TAM_TITULO - tamanho;
+        printf("%d - %s", i, titulos[i]); //tentar deixar alinhado como no exemplo
+        for (int j = 0; j < num_espacos; j++) {
+            printf(" ");
+        }
+        printf("%i\n", paginas[i]);
     }
 }
 
