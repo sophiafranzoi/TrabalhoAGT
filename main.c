@@ -81,7 +81,7 @@ int buscarTitulo(char titulo[]) {
 // FIM DAS MATRIZES 1 E 2
 // Matriz 3 
 int emprestimos[MAX_LIVROS][5];
-int cadastros = 0, valido, dia_inicio, dias; 
+int cadastros = 0, valido, dia_inicio, dias, dia_fim; 
 char emprestimo[TAM_TITULO];
 
 
@@ -117,6 +117,9 @@ void cadastro_especifico(){
             if (dias >= 1 && dias <= 7) emprestimos[cadastros][4] = dias;
             else printf("Numero de dias invalido!\n");
         } while (dias < 1 || dias > 7);
+
+        dia_fim = dia_inicio + dias - 7;
+        emprestimos[cadastros][5] = dia_fim;
 
         cadastros += 1;
     }
