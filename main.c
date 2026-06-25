@@ -91,8 +91,8 @@ void cadastro_especifico(){
 
    
     if (buscarTitulo(emprestimo) != -1) {
+        emprestimos[cadastros][0] = buscarTitulo(emprestimo);
         emprestimos[cadastros][1] = buscarTitulo(emprestimo);
-        emprestimos[cadastros][2] = buscarTitulo(emprestimo);
         valido = 1;
     }
     else {
@@ -106,7 +106,7 @@ void cadastro_especifico(){
             printf("\nDigite o dia do início do emprestimo:\n2 - Segunda\n3 - Terca\n4 - Quarta\n5 - Quinta\n6 - Sexta\nOpcao: "); 
             scanf("%i", &dia_inicio);
 
-            if (dia_inicio >= 2 && dia_inicio <= 6) emprestimos[cadastros][3] = dia_inicio;
+            if (dia_inicio >= 2 && dia_inicio <= 6) emprestimos[cadastros][2] = dia_inicio;
             else printf("Opcao invalida!\n");
         } while (dia_inicio < 2 || dia_inicio > 6);
 
@@ -114,12 +114,12 @@ void cadastro_especifico(){
             printf("\nDigite o numero de dias para o emprestimo (até 7 dias): ");
             scanf("%i", &dias);
 
-            if (dias >= 1 && dias <= 7) emprestimos[cadastros][4] = dias;
+            if (dias >= 1 && dias <= 7) emprestimos[cadastros][3] = dias;
             else printf("Numero de dias invalido!\n");
         } while (dias < 1 || dias > 7);
 
         dia_fim = dia_inicio + dias - 7;
-        emprestimos[cadastros][5] = dia_fim;
+        emprestimos[cadastros][4] = dia_fim;
 
         cadastros += 1;
     }
