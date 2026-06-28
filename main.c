@@ -85,14 +85,17 @@ int cadastros = 0, valido, dia_inicio, dias, dia_fim;
 char emprestimo[TAM_TITULO];
 
 
+   
 void cadastro_especifico(){
-    printf("\nDigite o titúlo que deseja cadastrar: ");
+    printf("\nDigite o titulo que deseja cadastrar: ");
     scanf(" %[^\n]", emprestimo);
 
-   
+
     if (buscarTitulo(emprestimo) != -1) {
-        emprestimos[cadastros][0] = buscarTitulo(emprestimo);
-        emprestimos[cadastros][1] = buscarTitulo(emprestimo);
+         int index = buscarTitulo(emprestimo); //antes salvava o indice repetido nas colunas [0] e [1] por engano
+        // corrigido pra salvar o indice em [0] e o numero de paginas (paginas[indice]) em [1]
+        emprestimos[cadastros][0] = index;
+        emprestimos[cadastros][1] = paginas[index];
         valido = 1;
     }
     else {
@@ -103,7 +106,7 @@ void cadastro_especifico(){
     if (valido == 1){
 
         do{
-            printf("\nDigite o dia do início do emprestimo:\n2 - Segunda\n3 - Terca\n4 - Quarta\n5 - Quinta\n6 - Sexta\nOpcao: "); 
+            printf("\nDigite o dia do inicio do emprestimo:\n2 - Segunda\n3 - Terca\n4 - Quarta\n5 - Quinta\n6 - Sexta\nOpcao: "); 
             scanf("%i", &dia_inicio);
 
             if (dia_inicio >= 2 && dia_inicio <= 6) emprestimos[cadastros][2] = dia_inicio;
@@ -111,19 +114,58 @@ void cadastro_especifico(){
         } while (dia_inicio < 2 || dia_inicio > 6);
 
         do{
-            printf("\nDigite o numero de dias para o emprestimo (até 7 dias): ");
+            printf("\nDigite o numero de dias para o emprestimo (ate 7 dias): ");
             scanf("%i", &dias);
 
             if (dias >= 1 && dias <= 7) emprestimos[cadastros][3] = dias;
             else printf("Numero de dias invalido!\n");
         } while (dias < 1 || dias > 7);
 
-        dia_fim = dia_inicio + dias - 7;
+         dia_fim = dia_inicio + dias;
+            while (dia_fim > 6) {
+             dia_fim -= 5; // sabado e domingo nao contam, por isso pula o fim de semana
+            }
         emprestimos[cadastros][4] = dia_fim;
 
-        cadastros += 1;
+    cadastros += 1;
     }
 
+}
+//lista os emprestimos cadastrados (Matriz 3)
+    void listarEmprestimos() {
+    if (cadastros == 0) {
+        printf("\nNenhum emprestimo cadastrado.\n");
+        return;
+    }
+    printf("\n%-20s%-20s%-20s%-22s%-15s\n",
+           "Titulo", "Numero de Paginas", "Dia do Emprestimo", "Dias em Emprestimo", "Dia Devolucao");
+    printf("---------------------------------------------------------------------------------------\n");
+    for (int i = 0; i < cadastros; i++) {
+        int idxLivro = emprestimos[i][0];
+        int qtdPaginas = emprestimos[i][1];
+        int diaInicio = emprestimos[i][2];
+        int qtdDias = emprestimos[i][3];
+        int diaFim = emprestimos[i][4];
+        char nomeInicio[10];
+        char nomeFim[10];
+
+        // convertendo o dia de inicio pra nome
+        if (diaInicio == 2) strcpy(nomeInicio, "Segunda");
+        else if (diaInicio == 3) strcpy(nomeInicio, "Terca");
+        else if (diaInicio == 4) strcpy(nomeInicio, "Quarta");
+        else if (diaInicio == 5) strcpy(nomeInicio, "Quinta");
+        else if (diaInicio == 6) strcpy(nomeInicio, "Sexta");
+        else strcpy(nomeInicio, "Invalido");
+
+        // convertendo o dia de devolucao pra nome
+        if (diaFim == 2) strcpy(nomeFim, "Segunda");
+        else if (diaFim == 3) strcpy(nomeFim, "Terca");
+        else if (diaFim == 4) strcpy(nomeFim, "Quarta");
+        else if (diaFim == 5) strcpy(nomeFim, "Quinta");
+        else if (diaFim == 6) strcpy(nomeFim, "Sexta");
+        else strcpy(nomeFim, "Invalido");
+        printf("%-20s%-20d%-20s%-22d%-15s\n", titulos[idxLivro], qtdPaginas, nomeInicio, qtdDias, nomeFim);
+    }
 }
 
 int main() {
@@ -135,8 +177,7 @@ int main() {
         printf("3 - Listar titulos\n");
         printf("4 - Buscar titulo\n");
         printf("5 - Cadastrar emprestimo\n");
-        // quando juntar com a matriz 2, adicionar aqui as opcoes dela
-        // (ex: 4 - Cadastrar paginas, 5 - Listar paginas)
+        printf("6 - Listar emprestimo\n");
         printf("0 - Sair\n");
         printf("--------------------\n\n");
         printf("Opcao: ");
@@ -162,6 +203,9 @@ int main() {
         }
         else if (opcao == 5){
             cadastro_especifico();
+        }
+         else if (opcao == 6){
+            listarEmprestimos();
         }
         else if (opcao == 0) {
             do{
