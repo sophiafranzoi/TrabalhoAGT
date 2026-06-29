@@ -58,8 +58,8 @@ void listarTitulos() {
     for (int i = 0; i < totalLivros; i++) {
         int tamanho;
         for (tamanho = 0; titulos[i][tamanho] != '\0'; tamanho++);
-        int num_espacos = DISTANCIA + TAM_TITULO - tamanho;
-        printf("%d - %s", i, titulos[i]); //tentar deixar alinhado como no exemplo
+        int num_espacos = DISTANCIA + TAM_TITULO - tamanho; // deixar alinhado como no exemplo
+        printf("%d - %s", i, titulos[i]); 
         for (int j = 0; j < num_espacos; j++) {
             printf(" ");
         }
@@ -92,8 +92,7 @@ void cadastro_especifico(){
 
 
     if (buscarTitulo(emprestimo) != -1) {
-         int index = buscarTitulo(emprestimo); //antes salvava o indice repetido nas colunas [0] e [1] por engano
-        // corrigido pra salvar o indice em [0] e o numero de paginas (paginas[indice]) em [1]
+        int index = buscarTitulo(emprestimo); 
         emprestimos[cadastros][0] = index;
         emprestimos[cadastros][1] = paginas[index];
         valido = 1;
@@ -113,18 +112,23 @@ void cadastro_especifico(){
             else printf("Opcao invalida!\n");
         } while (dia_inicio < 2 || dia_inicio > 6);
 
-        do{
-            printf("\nDigite o numero de dias para o emprestimo (ate 7 dias): ");
-            scanf("%i", &dias);
+        
+        do {
+            do{
+                printf("\nDigite o numero de dias para o emprestimo (ate 7 dias): ");
+                scanf("%i", &dias);
 
-            if (dias >= 1 && dias <= 7) emprestimos[cadastros][3] = dias;
-            else printf("Numero de dias invalido!\n");
-        } while (dias < 1 || dias > 7);
+                if (dias >= 1 && dias <= 7) emprestimos[cadastros][3] = dias;
+                else printf("Numero de dias invalido!\n");
+            } while (dias < 1 || dias > 7);
 
-         dia_fim = dia_inicio + dias;
-            while (dia_fim > 6) {
-             dia_fim -= 5; // sabado e domingo nao contam, por isso pula o fim de semana
+            dia_fim = dia_inicio + dias;
+            while (dia_fim > 7) {
+                dia_fim -= 7; 
             }
+            if (dia_fim == 1 || dia_fim == 7) printf("Data de devolucao em final de semana. Insira outra quantidade de dias de emprestimo.");
+        } while (dia_fim == 1 || dia_fim == 7);
+        
         emprestimos[cadastros][4] = dia_fim;
 
     cadastros += 1;
