@@ -135,7 +135,7 @@ void cadastro_especifico(){
     }
 
 }
-//lista os emprestimos cadastrados (Matriz 3)
+
     void listarEmprestimos() {
     if (cadastros == 0) {
         printf("\nNenhum emprestimo cadastrado.\n");
@@ -153,7 +153,7 @@ void cadastro_especifico(){
         char nomeInicio[10];
         char nomeFim[10];
 
-        // convertendo o dia de inicio pra nome
+        // converter o dia de inicio pra nome
         if (diaInicio == 2) strcpy(nomeInicio, "Segunda");
         else if (diaInicio == 3) strcpy(nomeInicio, "Terca");
         else if (diaInicio == 4) strcpy(nomeInicio, "Quarta");
@@ -161,7 +161,7 @@ void cadastro_especifico(){
         else if (diaInicio == 6) strcpy(nomeInicio, "Sexta");
         else strcpy(nomeInicio, "Invalido");
 
-        // convertendo o dia de devolucao pra nome
+        // converter o dia de devolucao pra nome 
         if (diaFim == 2) strcpy(nomeFim, "Segunda");
         else if (diaFim == 3) strcpy(nomeFim, "Terca");
         else if (diaFim == 4) strcpy(nomeFim, "Quarta");
@@ -170,6 +170,34 @@ void cadastro_especifico(){
         else strcpy(nomeFim, "Invalido");
         printf("%-20s%-20d%-20s%-22d%-15s\n", titulos[idxLivro], qtdPaginas, nomeInicio, qtdDias, nomeFim);
     }
+    //os valores na frente dos tipos de dados (20, 22,etc), servem para definir a quantidade de espaço que vai ser dada
+}
+    void removerCadastro() {
+    char titulo[TAM_TITULO];
+
+    if (totalLivros == 0) {
+        printf("\nNenhum livro foi cadastrado\n");
+        return;
+    }
+
+    printf("\nDigite o titulo que deseja remover: ");
+    scanf(" %[^\n]", titulo);
+
+    int inicio = buscarTitulo(titulo);
+
+    if (inicio == -1) {
+        printf("\nTitulo nao encontrado :( \n");
+    
+    } else{
+        for (int i = inicio; i < totalLivros - 1; i++) { 
+        strcpy(titulos[i], titulos[i + 1]); //puxa o livro uma posicao pra tras
+        paginas[i] = paginas[i + 1];
+        }
+      }
+
+    totalLivros--;
+
+    printf("\nLivro removido com sucesso! :)\n");
 }
 
 int main() {
@@ -178,11 +206,12 @@ int main() {
     do {
         printf("\n----Menu Titulos----\n");
         printf("1 - Cadastrar titulo\n");
+        printf("2 - Remover cadastro\n");
         printf("3 - Listar titulos\n");
         printf("4 - Buscar titulo\n");
         printf("5 - Cadastrar emprestimo\n");
         printf("6 - Listar emprestimo\n");
-        printf("0 - Sair\n");
+        printf("7 - Sair\n");
         printf("--------------------\n\n");
         printf("Opcao: ");
         scanf("%d", &opcao);
@@ -192,6 +221,9 @@ int main() {
         }
         else if (opcao == 3) {
             listarTitulos();
+        }
+           else if (opcao == 2) {
+            removerCadastro();
         }
         else if (opcao == 4) {
             char busca[TAM_TITULO];
@@ -211,7 +243,7 @@ int main() {
          else if (opcao == 6){
             listarEmprestimos();
         }
-        else if (opcao == 0) {
+        else if (opcao == 7) {
             do{
                 printf("Tem certeza de que deseja sair?\n1 - Nao\n2 - Sim\nOpcao: ");
                 scanf("%i", &certeza);
